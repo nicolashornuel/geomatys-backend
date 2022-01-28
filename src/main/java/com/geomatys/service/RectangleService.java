@@ -39,5 +39,9 @@ public class RectangleService {
 	public List<Rectangle> findAll() {
 		return rectangleRepository.findAll();
 	}
+	
+	public void deleteById(Long Id) {
+		rectangleRepository.deleteById(Id);;
+	}
 
 }

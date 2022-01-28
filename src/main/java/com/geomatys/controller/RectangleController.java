@@ -11,7 +11,9 @@ import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,6 +59,11 @@ public class RectangleController {
 	@GetMapping("/liste")
 	public List<Rectangle> findAll() throws SerialException, SQLException {
 		return rectangleService.findAll();
+	}
+	
+	@DeleteMapping("{id}")
+	public void deleteById(@PathVariable Long id) {
+		rectangleService.deleteById(id);
 	}
 
 }

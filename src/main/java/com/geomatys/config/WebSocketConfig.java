@@ -25,7 +25,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
  
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        //registry.addEndpoint("/stomp").setAllowedOrigins("*").withSockJS();
+        //registry.addEndpoint("/stomp").setAllowedOrigins("https://geomatys-frontend.web.app").withSockJS();
     	 registry.addEndpoint("/stomp").setAllowedOriginPatterns("*").withSockJS();
     } 
 
