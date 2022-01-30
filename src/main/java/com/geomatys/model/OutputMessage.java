@@ -7,26 +7,30 @@ package com.geomatys.model;
  * @author macbookpro
  *
  */
-public class Message {
+public class OutputMessage {
 
 	private String event;
 	private String content;
-	
+	private String time;
+
 	/** Constructeur
 	 * 
 	 */
-	public Message(String event, String content) {
+	public OutputMessage(String event, String content, String time) {
 		this.event = event;
 		this.content = content;
+		this.time = time;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Message [event=");
+		builder.append("OutputMessage [event=");
 		builder.append(event);
 		builder.append(", content=");
 		builder.append(content);
+		builder.append(", time=");
+		builder.append(time);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -45,20 +49,23 @@ public class Message {
 		this.event = event;
 	}
 
-	/** Getter
+	/**
+	 * Getter
+	 * 
 	 * @return the content
 	 */
 	public String getContent() {
 		return content;
 	}
 
-	/** Setter
-	 * @param content the content to set
+	/**
+	 * Getter
+	 * 
+	 * @return the time
 	 */
-	public void setContent(String content) {
-		this.content = content;
+	public String getTime() {
+		return time;
 	}
-
 
 
 }

@@ -4,10 +4,7 @@
 package com.geomatys.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
-
-import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,13 +12,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.geomatys.model.Rectangle;
-import com.geomatys.service.RectangleService;
+import com.geomatys.model.Image;
+import com.geomatys.service.ImageService;
 
 /**
  * @author macbookpro
@@ -29,41 +26,34 @@ import com.geomatys.service.RectangleService;
  */
 @CrossOrigin
 @RestController
-public class RectangleController {
+public class ImageController {
 	
     @Autowired
-    private RectangleService rectangleService;
+    private ImageService imageService;
     
-
     @GetMapping("/")
     String hello() {
       return "Hello world!";
     }
     
     @PostMapping("/uploadFile")
-    public Rectangle uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-
-    	Rectangle rectangle = rectangleService.storeRectangle(file);
-
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
-                .path(rectangle.getId().toString())
-                .toUriString();
-        
-        System.out.println(fileDownloadUri);
-
-        return rectangle;
+    public Image uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    	return imageService.storeImage(file);
     }
-    
 	
 	@GetMapping("/liste")
-	public List<Rectangle> findAll() throws SerialException, SQLException {
-		return rectangleService.findAll();
+	public List<Image> findAll() {
+		return imageService.findAll();
 	}
 	
 	@DeleteMapping("{id}")
 	public void deleteById(@PathVariable Long id) {
-		rectangleService.deleteById(id);
+		imageService.deleteById(id);
+	}
+	
+	@PutMapping("{id}")
+	public void update(@PathVariable(name = "id") Long id, @RequestParam("file") MultipartFile file) throws IOException {
+		imageService.update(file, id);
 	}
 
 }

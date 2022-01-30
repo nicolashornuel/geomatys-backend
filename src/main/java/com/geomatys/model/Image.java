@@ -19,16 +19,16 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table
-public class Rectangle {
+@Table(name="Rectangle")
+public class Image {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column
-	private String fileName;
-	@Column
-	private String fileType;
+	@Column(name="fileName")
+	private String name;
+	@Column(name="fileType")
+	private String type;
 	@Column
 	@Lob
 	private byte[] data;
@@ -37,35 +37,35 @@ public class Rectangle {
     /** Constructeur
 	 * 
 	 */
-	public Rectangle() {
+	public Image() {
 	}
 
-	/** 
-     * Constructeur
-     */
-    public Rectangle(String fileName, String fileType, byte[] data) {
-        this.fileName = fileName;
-        this.fileType = fileType;
-        this.data = data;
-    }
-    
-	/**
-	 * toString()
+
+	/** Constructeur
+	 * 
 	 */
+	public Image(String name, String type, byte[] data) {
+		this.name = name;
+		this.type = type;
+		this.data = data;
+	}
+
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Rectangle[id=");
+		builder.append("Image [id=");
 		builder.append(id);
-		builder.append(", fileName=");
-		builder.append(fileName);
-		builder.append(", fileType=");
-		builder.append(fileType);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", type=");
+		builder.append(type);
 		builder.append(", data=");
 		builder.append(Arrays.toString(data));
 		builder.append("]");
 		return builder.toString();
 	}
+
 
 	/** Getter
 	 * @return the id
@@ -74,6 +74,7 @@ public class Rectangle {
 		return id;
 	}
 
+
 	/** Setter
 	 * @param id the id to set
 	 */
@@ -81,33 +82,38 @@ public class Rectangle {
 		this.id = id;
 	}
 
-	/** Getter
-	 * @return the fileName
-	 */
-	public String getFileName() {
-		return fileName;
-	}
-
-	/** Setter
-	 * @param fileName the fileName to set
-	 */
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
 
 	/** Getter
-	 * @return the fileType
+	 * @return the name
 	 */
-	public String getFileType() {
-		return fileType;
+	public String getName() {
+		return name;
 	}
 
+
 	/** Setter
-	 * @param fileType the fileType to set
+	 * @param name the name to set
 	 */
-	public void setFileType(String fileType) {
-		this.fileType = fileType;
+	public void setName(String name) {
+		this.name = name;
 	}
+
+
+	/** Getter
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+
+	/** Setter
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
 
 	/** Getter
 	 * @return the data
@@ -116,12 +122,12 @@ public class Rectangle {
 		return data;
 	}
 
+
 	/** Setter
 	 * @param data the data to set
 	 */
 	public void setData(byte[] data) {
 		this.data = data;
 	}
-    
 
 }
