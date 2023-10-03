@@ -1,0 +1,39 @@
+run-name: Build and Deploy
+name: Deploy java App to Cloud Run
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    name: Build Docker Container and Deploy to Cloud Run
+    env:
+        IMAGE_NAME: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REPO_NAME }}/${{ secrets.GCP_APP_NAME }}
+        PORT: 8080
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+          java-package: jdk
+      - name: Maven build .jar file
+        run: mvn -B package --file pom.xml -DskipTests
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+            credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+      - name: Configure Docker with gcloud
+        run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev --quiet
+      - name: Build Docker image $IMAGE_NAME
+        run: docker build . -t $IMAGE_NAME
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME
+      - name: Deploy Docker image
+        run: gcloud run deploy ${{ secrets.GCP_APP_NAME }} --image $IMAGE_NAME --region ${{ secrets.GCP_REGION }} --platform managed --port $PORT
